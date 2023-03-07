@@ -18,20 +18,13 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// const hbs = expressHandlebars.create({
-//   helpers: {
-//     round: function (number) {
-//       return Math.round(number) / 100;
-//     },
-//     date: function (dateString) {
-//       const date = new Date(dateString);
+const clientPath = path.join(__dirname, '../', 'client/build');
 
-//       return `${date.getMonth() + 1}/${date.getDate() + 1}/${date.getFullYear()}`;
-//     },
-//   },
-// });
+  app.use(express.static(clientPath));
+  app.get('/*', (_req, res) => {
+    res.sendFile(path.join(clientPath, 'index.html'));
+  });
 
-// app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.resolve(__dirname, './views'));
 
